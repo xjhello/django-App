@@ -19,7 +19,8 @@ from django.views.static import serve
 
 from BBS import settings
 from app01 import views
-
+def return_static(request, path, insecure=True, **kwargs):
+  return serve(request, path, insecure, **kwargs)
 urlpatterns = [
     url(r'^register/', views.register),
     url(r'^$', views.home),
@@ -30,7 +31,7 @@ urlpatterns = [
     url(r'^home/', views.home),
     # 静态资源接口,media配置,serve区别其他url，能够访问所有文件，MEDIA_ROOT定义了开放的路径
     url(r'^media/(?P<path>.*)', serve, {'document_root': settings.MEDIA_ROOT}),
-
+    url(r'^static/(?P<path>.*)$', return_static, name='static'),
     # 点赞点踩逻辑
     url(r'^updown/', views.updown),
     # 评论相关
