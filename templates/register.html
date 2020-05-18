@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+</head>
+<body>
+<div class="container-fluid">
+    <div class='row'>
+        <div class="col-md-6 col-md-offset-3">
+            <h2 class="text-center">注册</h2>
+            <br>
+            <form id="myform">
+                {% csrf_token %}
+                {% for foo in form_obj %}
+                    <div class="form-group">
+                        <label for="{{ foo.auto_id }}">{{ foo.label }}</label>
+                        {{ foo }}
+                        <span class="error pull-right" style="color: red"></span>
+                    </div>
+                {% endfor %}
+
+                <div class="form-group">
+                    <label for="myfile">头像
+                        <img src="/static/img/default.jpg" alt="" height="80px" style="margin-left: 20px" id="id_img">
+                    </label>
+                    <input type="file" name="avatar" id="myfile" style="display: none">
+                </div>
+
+                <input type="button" class="btn btn-success pull-right" value="注册" id="id_submit">
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+
+    // 图片动态显示
+    $('#myfile').change(function () {
+        var fileReader = new FileReader(); // 文件阅读器对象
+        var myfile = $(this)[0].files[0]; // 页面得到的文件交给阅读器处理
+        fileReader.readAsDataURL(myfile);
+        // 修改图片属性
+        // 必须要等到文件阅读器把文件全部读取完毕之后再渲染
+        fileReader.onload = function(){
+            $("#id_img").attr('src', fileReader.result)
+        }
+    });
+
+    // 注册按钮
+    $('#id_submit').click(function () {
+        var formdata = new FormData();
+        // serializeArray序列化from表单元素:[{},{}]
+        var fromlist = $('#myform').serializeArray()
+        // console.log($('#myform').serializeArray())
+        // each 相当于for in ，index为下标，obj是对象
+        $.each(fromlist, function (index, obj) {
+            formdata.append(obj.name, obj.value)// 将所有的普通的键值对 添加到formdata对象中
+        });
+        // 手动添加文件对象
+        formdata.append('myfile',$('#myfile')[0].files[0]);
+        $.ajax({
+            url:'',
+            type:'post',
+            processData:false,
+            contentType:false,
+            data:formdata,
+            success:function (res) {
+                if(res.code == 100){
+                    // 跳转新的页面
+                    location.href = res.url
+                }
+                // 处理返回的数据，由于HTML中是id_名字
+               if(res.code == 101){
+                    // 找到对应的input 放入对应错误信息
+                   console.log(res.msg)
+                    $.each(res.msg, function (index,obj) {
+                        // 返回的是对象，index是key，手动拼接id值
+                        var targetId = '#id_' + index;
+                        // 找到lable后在span标签渲染，然后input也标红
+                        $(targetId).next().html(obj[0]).parent().addClass('has-error')
+                    })
+                }
+            }
+        })
+    });
+
+    // input聚焦后清除提示
+    $('input').focus(function () {
+        $(this).next().html('').parent().removeClass('has-error')
+
+    })
+</script>
+</body>
+</html>

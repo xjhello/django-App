@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <meta charset="UTF-8">
+    <title>Title</title>
+        {% load static %}
+    <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+</head>
+<body>
+<button id="bt1">urlencoded格式</button>
+<button id="bt2">Json格式</button>
+</body>
+<script>
+    // urlencoded格式
+    $('#bt1').click(function () {
+        $.ajax({
+        url:'',
+        contentType:'application/x-www-form-urlencoded',  // 默认
+        type:'post',
+        data:{
+            a:123,
+            b:321
+        },
+        success:function (res) {
+            console.log(res)
+        }
+    })
+    })
+
+    // json格式
+    $('#bt2').click(function () {
+        $.ajax({
+        url:'',
+        contentType:'application/json',
+        type:'post',
+        data:JSON.stringify({
+            a:123,
+            b:321
+        }),
+        success:function (res) {
+            console.log(res)
+        }
+    })
+    })
+
+
+
+</script>
+</html>
