@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.views.static import serve
-
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from BBS import settings
 from app01 import views
 def return_static(request, path, insecure=True, **kwargs):
@@ -48,3 +48,4 @@ urlpatterns = [
 
     url(r'^admin/', admin.site.urls),
 ]
+urlpatterns = urlpatterns + staticfiles_urlpatterns()
