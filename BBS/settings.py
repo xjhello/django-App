@@ -123,7 +123,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
+    (os.path.join(BASE_DIR, 'static'))
 ]
 
 # 告诉django orm你用自己写的userinfo替换auth_user表
