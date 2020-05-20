@@ -48,4 +48,4 @@ urlpatterns = [
 
     url(r'^admin/', admin.site.urls),
 ]
-urlpatterns = urlpatterns + staticfiles_urlpatterns()
+urlpatterns += staticfiles_urlpatterns()
