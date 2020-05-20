@@ -122,13 +122,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    (os.path.join(BASE_DIR, 'static'))
-]
+#STATICFILES_DIRS = [
+#    os.path.join(BASE_DIR, 'static')
+#]
 
 # 告诉django orm你用自己写的userinfo替换auth_user表
 AUTH_USER_MODEL = 'app01.UserInfo'
 
 
 # 配置让用户上传的所有的静态资源 全部放在一个文件下
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+#MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
